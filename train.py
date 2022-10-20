@@ -27,7 +27,8 @@ def train(args):
 
     # Model Load
     net, optimizer, best_loss, start_epoch = load_model(args, mode='TRAIN')
-
+    net.to(device)
+    
     # Loss Init
     for epoch in range(start_epoch, args.epochs + 1):
         # Train Model
