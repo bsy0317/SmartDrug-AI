@@ -45,8 +45,10 @@ def load_model(args, mode):
         start_epoch = 1
 
     if device == 'cuda':
+        CUDA_VISIBLE_DEVICES=0
         model.cuda()
-        model = torch.nn.DataParallel(model)
+        model = torch.nn.DataParallel(model).cuda()
+        model.to(device)
         torch.backends.cudnn.benchmark=True
     if device == 'mps':
         model.to(device)

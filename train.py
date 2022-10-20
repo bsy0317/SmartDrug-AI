@@ -28,7 +28,7 @@ def train(args):
     # Model Load
     net, optimizer, best_loss, start_epoch = load_model(args, mode='TRAIN')
     net.to(device)
-    
+
     # Loss Init
     for epoch in range(start_epoch, args.epochs + 1):
         # Train Model
@@ -67,11 +67,11 @@ def train(args):
                 shape = shape.cpu().detach().numpy()
                 color1 = color1.cpu().detach().numpy()
                 color2 = color2.cpu().detach().numpy()
-                shape_acc = float(((shape==pred_shape).astype(np.int).sum())/batch_size)
+                shape_acc = float(((shape==pred_shape).astype(np.int64).sum())/batch_size)
                 acc[0] += shape_acc
-                color1_acc = float(((color1==pred_color1).astype(np.int).sum())/batch_size)
+                color1_acc = float(((color1==pred_color1).astype(np.int64).sum())/batch_size)
                 acc[1] += color1_acc
-                color2_acc = float(((color2==pred_color2).astype(np.int).sum())/batch_size)
+                color2_acc = float(((color2==pred_color2).astype(np.int64).sum())/batch_size)
                 acc[2] += color2_acc
                 acc[3] += shape_acc * color1_acc * color2_acc
                 progress_bar(idx, len(trainloader), config.multi_print_format
@@ -128,11 +128,11 @@ def train(args):
                 shape = shape.cpu().detach().numpy()
                 color1 = color1.cpu().detach().numpy()
                 color2 = color2.cpu().detach().numpy()
-                shape_acc = float(((shape==pred_shape).astype(np.int).sum())/batch_size)
+                shape_acc = float(((shape==pred_shape).astype(np.int64).sum())/batch_size)
                 acc[0] += shape_acc
-                color1_acc = float(((color1==pred_color1).astype(np.int).sum())/batch_size)
+                color1_acc = float(((color1==pred_color1).astype(np.int64).sum())/batch_size)
                 acc[1] += color1_acc
-                color2_acc = float(((color2==pred_color2).astype(np.int).sum())/batch_size)
+                color2_acc = float(((color2==pred_color2).astype(np.int64).sum())/batch_size)
                 acc[2] += color2_acc
                 acc[3] += shape_acc * color1_acc * color2_acc
                 progress_bar(idx, len(trainloader), config.multi_print_format
@@ -144,7 +144,7 @@ def train(args):
                 batch_loss = F.cross_entropy(output, label)
                 output = (output.cpu().detach().numpy()).argmax(axis=1)
                 label = label.cpu().detach().numpy()
-                correct = (output==label).astype(np.int).sum()
+                correct = (output==label).astype(np.int64).sum()
                 acc[3] += float(correct/batch_size)
                 loss[3] += float(batch_loss)
                 progress_bar(idx, len(trainloader), 'Loss: %.5f, Acc: %.5f'

@@ -188,7 +188,7 @@ class Checkpoint:
             self.optimizer.load_state_dict(checkpoint["optimizer_state"])
 
     def save(self, path):
-        state_dict = self.model.module.state_dict()
+        state_dict = self.model.state_dict()
         torch.save({"model_state": state_dict,
                     "optimizer_state": self.optimizer.state_dict(),
                     "epoch": self.epoch,

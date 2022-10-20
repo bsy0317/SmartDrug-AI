@@ -60,11 +60,11 @@ def test(args):
             shape = shape.cpu().detach().numpy()
             color1 = color1.cpu().detach().numpy()
             color2 = color2.cpu().detach().numpy()
-            shape_acc = float(((shape==pred_shape).astype(np.int).sum())/batch_size)
+            shape_acc = float(((shape==pred_shape).astype(np.int64).sum())/batch_size)
             acc[0] += shape_acc
-            color1_acc = float(((color1==pred_color1).astype(np.int).sum())/batch_size)
+            color1_acc = float(((color1==pred_color1).astype(np.int64).sum())/batch_size)
             acc[1] += color1_acc
-            color2_acc = float(((color2==pred_color2).astype(np.int).sum())/batch_size)
+            color2_acc = float(((color2==pred_color2).astype(np.int64).sum())/batch_size)
             acc[2] += color2_acc
             acc[3] += shape_acc * color1_acc * color2_acc
             progress_bar(idx, len(trainloader), config.multi_print_format
@@ -96,7 +96,7 @@ def test(args):
             aleatoric_val += np.array(pred_aleatoric).sum() / len(pred_aleatoric)
             epistemic_val += np.array(pred_epistemic).sum() / len(pred_epistemic)
 
-            acc[3] += float(((prediction==labels).astype(np.int).sum())/batch_size)
+            acc[3] += float(((prediction==labels).astype(np.int64).sum())/batch_size)
             loss[3] += float(batch_loss)
             progress_bar(idx, len(testloader), 'loss: %.4f, acc: %.4f. alea: %.4f, epis: %.4f'
                 %((loss[3]/(idx+1)), acc[3]/(idx+1), aleatoric_val/(idx+1), epistemic_val/(idx+1)))
