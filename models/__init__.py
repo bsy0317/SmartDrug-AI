@@ -15,6 +15,8 @@ def load_model(args, mode):
         device = torch.device("mps")
     elif torch.cuda.is_available():
         device = torch.device("cuda")
+    if device is None:
+        device = torch.device("cpu")
     torch.backends.cudnn.benchmark=True
     
     if args.data == 'shape':

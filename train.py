@@ -19,6 +19,8 @@ def train(args):
         device = torch.device("mps")
     elif torch.cuda.is_available():
         device = torch.device("cuda")
+    if device is None:
+        device = torch.device("cpu")
     cudnn.benchmark = True
 
     # Data Load

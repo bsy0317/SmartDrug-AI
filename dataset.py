@@ -17,12 +17,12 @@ def data_loader(args, mode='TRAIN'):
     elif mode =='VALID' or mode=='TEST':
         shuffle = False
     else:
-        raise ValueError('data_loader flag ERROR')
+        raise ValueError('InValid Flag in data_loader')
 
     dataset = Dataset(args, mode)
     dataloader = DataLoader(Dataset(args, mode),
                             batch_size=args.batch_size,
-                            num_workers=os.cpu_count(),
+                            num_workers=0,                  # 0 for windows
                             shuffle=shuffle,
                             drop_last=True)
     return dataloader
