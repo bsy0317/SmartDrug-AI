@@ -80,7 +80,8 @@ def train(args):
                             %(loss[0]/(idx+1), loss[1]/(idx+1), loss[2]/(idx+1), loss[3]/(idx+1),
                             acc[0]/(idx+1), acc[1]/(idx+1), acc[2]/(idx+1), acc[3]/(idx+1)))
             else:
-                img, label = img.to(device), label.to(device)
+                img, shape, color1, color2 = img.to(device), label[0].to(device),\
+                                             label[1].to(device), label[2].to(device)
                 output = net(img)
                 batch_loss = F.cross_entropy(output, label)
                 optimizer.zero_grad()
@@ -96,7 +97,7 @@ def train(args):
 
         print('\n\n  >>Validation')
         net.eval()
-        for module in net.module.modules():
+        for module in net.modules():
             if isinstance(module, torch.nn.modules.Dropout2d):
                 module.train(True)
             elif isinstance(module, torch.nn.modules.Dropout):

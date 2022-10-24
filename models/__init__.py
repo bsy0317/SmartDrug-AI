@@ -37,15 +37,6 @@ def load_model(args, mode):
     else:
         raise ValueError('InValid Flag in load_model')
 
-    if resume:
-        checkpoint = Checkpoint(model, optimizer)
-        checkpoint.load(args.ckpt_path)
-        best_loss = checkpoint.best_loss
-        start_epoch = checkpoint.epoch+1
-    else:
-        best_loss = 9999
-        start_epoch = 1
-
     if device == 'cuda':
         CUDA_VISIBLE_DEVICES=0
         model.cuda()
@@ -56,5 +47,13 @@ def load_model(args, mode):
         model.to(device)
         model = torch.nn.DataParallel(model)
         torch.backends.cudnn.benchmark=True
+    if resume:
+        checkpoint = Checkpoint(model, optimizer, device=device)
+        checkpoint.load(args.ckpt_path, device=device)
+        best_loss = checkpoint.best_loss
+        start_epoch = checkpoint.epoch+1
+    else:
+        best_loss = 9999
+        start_epoch = 1
     return model, optimizer, best_loss, start_epoch
 

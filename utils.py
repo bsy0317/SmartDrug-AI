@@ -173,13 +173,14 @@ def format_time(seconds):
 
 
 class Checkpoint:
-    def __init__(self, model, optimizer=None, epoch=0, best_loss=9999):
+    def __init__(self, model, optimizer=None, epoch=0, best_loss=9999,device='cpu'):
         self.model = model
+        self.model.to(device)
         self.optimizer = optimizer
         self.epoch = epoch
         self.best_loss = best_loss
 
-    def load(self, path):
+    def load(self, path, device):
         checkpoint = torch.load(path)
         self.model.load_state_dict(checkpoint["model_state"])
         self.epoch = checkpoint["epoch"]
