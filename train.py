@@ -80,8 +80,7 @@ def train(args):
                             %(loss[0]/(idx+1), loss[1]/(idx+1), loss[2]/(idx+1), loss[3]/(idx+1),
                             acc[0]/(idx+1), acc[1]/(idx+1), acc[2]/(idx+1), acc[3]/(idx+1)))
             else:
-                img, shape, color1, color2 = img.to(device), label[0].to(device),\
-                                             label[1].to(device), label[2].to(device)
+                img, label = img.to(device), label.to(device)
                 output = net(img)
                 batch_loss = F.cross_entropy(output, label)
                 optimizer.zero_grad()
