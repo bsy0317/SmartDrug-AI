@@ -6,6 +6,7 @@ import pdb
 import cv2
 import threading
 import rembg
+import numpy as np
 from tqdm import tqdm
 
 LABEL_PATH = './label/pills_data.origin.xls'
@@ -179,7 +180,7 @@ def sizeCheck(img_root):
 
 def main():
     #download(LABEL_PATH, IMAGE_ROOT)               # Download images
-    remove_background(IMAGE_ROOT, PRE_IMAGE_ROOT)   # Remove background
+    #remove_background(IMAGE_ROOT, PRE_IMAGE_ROOT)   # Remove background
     imgproc(PRE_IMAGE_ROOT, CUT_IMAGE_ROOT)         # Image processing
     #imgCrop(IMAGE_ROOT)                            # Crop and Resize of Original images
     #imgCrop(PRE_IMAGE_ROOT)                        # Crop and Resize of Preprocessed images

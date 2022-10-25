@@ -177,11 +177,11 @@ if __name__ == "__main__":
                         help="Learning rate to use in training")
     parser.add_argument("--img_root", type=str, default="./data/image",
                         help="The directory containing the training image dataset.")
-    parser.add_argument("--label_path", type=str, default="./data/label/label.xls",
+    parser.add_argument("--label_path", type=str, default="./data/label/pills_data.origin.xls",
                         help="The directory containing the training label datgaset")
     parser.add_argument("--ckpt_path", type=str, default="./checkpoint/resnet.tar",
                         help="The directory containing the training label datgaset")
     args = parser.parse_args()
 
     train(args)
-#py train.py --data "shape" --epochs 30 --label_path "./data/label/pills_data.origin.xls"
+#py train.py --data "all" --epochs 100 --label_path "./data/label/pills_data.origin.xls" --img_root "./data/cut_image" --lr 0.001 --batch_size 16
