@@ -184,4 +184,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     train(args)
-#py train.py --data "all" --epochs 100 --label_path "./data/label/pills_data.origin.xls" --img_root "./data/cut_image" --lr 0.001 --batch_size 16
+#py train.py --data "all" --epochs 100 --label_path "./data/label/pills_data.origin.xls" --img_root "./data/pre_image" --lr 0.001
