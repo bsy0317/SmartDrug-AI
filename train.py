@@ -184,4 +184,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     train(args)
-#py train.py --data "shape,color1" --epochs 30 --label_path "./data/label/pills_data.origin.xls"
+#py train.py --data "shape" --epochs 30 --label_path "./data/label/pills_data.origin.xls"
