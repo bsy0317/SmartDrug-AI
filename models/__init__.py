@@ -27,7 +27,7 @@ def load_model(args, mode):
         class_num = (11,16,16)
     else:
         raise ValueError('args.data ERROR')
-    model = resnet50(num_classes=class_num, drop_rate=args.drop_rate)
+    model = resnet18(num_classes=class_num, drop_rate=args.drop_rate)
     if mode == 'TRAIN':
         optimizer = Adam(model.parameters(), lr=args.lr)
         resume = args.resume

@@ -27,6 +27,7 @@ def test(args):
 
     # Model Load
     resnet, _, _, _ = load_model(args, mode='TEST')
+    resnet.to(device)
 
     resnet.eval()
     torch.set_grad_enabled(False)

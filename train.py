@@ -158,7 +158,7 @@ def train(args):
             checkpoint.save(args.ckpt_path)
             best_loss = total_loss
             print("\nSaving...")
-    torch.save(model, f'./save_model/model.pt')
+    torch.save(net, f'./save_model/model.pt')
 
 
 if __name__ == "__main__":
