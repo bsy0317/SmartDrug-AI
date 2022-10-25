@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
+from torch.utils.tensorboard import SummaryWriter
+
 
 from dataset import *
 from models import *
@@ -29,7 +31,7 @@ def train(args):
 
     # Model Load
     net, optimizer, best_loss, start_epoch = load_model(args, mode='TRAIN')
-    net.to(device)
+    net.to(device).float()
 
     # Loss Init
     for epoch in range(start_epoch, args.epochs + 1):
@@ -40,6 +42,7 @@ def train(args):
         loss = [0, 0, 0, 0] # shape,color1,color2,total
         acc = [0, 0, 0, 0] # shape,color1,color2,total
         lr = args.lr * (0.5 ** (epoch // 5))
+        writer = SummaryWriter(f"./logs/train_{epoch}")
         for param_group in optimizer.param_groups:
             param_group["lr"] = lr
         for idx, (img, label, img_path) in enumerate(trainloader):
@@ -76,6 +79,11 @@ def train(args):
                 color2_acc = float(((color2==pred_color2).astype(np.int64).sum())/batch_size)
                 acc[2] += color2_acc
                 acc[3] += shape_acc * color1_acc * color2_acc
+                #writer = SummaryWriter('./logs/')
+                writer.add_scalar("train_loss", loss[3]/(idx+1), idx)
+                writer.add_scalar("train_acc", acc[3]/(idx+1), idx)
+                writer.flush()
+                #writer.close()
                 progress_bar(idx, len(trainloader), config.multi_print_format
                             %(loss[0]/(idx+1), loss[1]/(idx+1), loss[2]/(idx+1), loss[3]/(idx+1),
                             acc[0]/(idx+1), acc[1]/(idx+1), acc[2]/(idx+1), acc[3]/(idx+1)))
@@ -91,9 +99,14 @@ def train(args):
                 label = label.cpu().detach().numpy()
                 acc[3] += float(((output==label).astype(np.int64).sum())/batch_size)
                 loss[3] += float(batch_loss)
+                #writer = SummaryWriter('./logs/')
+                writer.add_scalar("train_loss", loss[3]/(idx+1), idx)
+                writer.add_scalar("train_acc", acc[3]/(idx+1), idx)
+                writer.flush()
+                #writer.close()
                 progress_bar(idx, len(trainloader), 'loss: %.5f, acc: %.5f'
                              %((loss[3]/(idx+1)), acc[3]/(idx+1)))
-
+        writer.close()
         print('\n\n  >>Validation')
         net.eval()
         for module in net.modules():
@@ -153,6 +166,11 @@ def train(args):
                             %((loss[3]/(idx+1)), acc[3]/(idx+1)))
 
         total_loss = loss[3]/(idx+1)
+        writer = SummaryWriter(f"./logs/val_{epoch}")
+        writer.add_scalar("val_loss", loss[3]/(idx+1), epoch)
+        writer.add_scalar("val_acc", acc[3]/(idx+1), epoch)
+        writer.flush()
+        writer.close()
         if total_loss < best_loss:
             checkpoint = Checkpoint(net, optimizer, epoch, total_loss)
             checkpoint.save(args.ckpt_path)
@@ -185,3 +203,4 @@ if __name__ == "__main__":
 
     train(args)
 #py train.py --data "all" --epochs 100 --label_path "./data/label/pills_data.origin.xls" --img_root "./data/pre_image" --lr 0.001
+#tensorboard --logdir ./logs --port 3029 --bind_all

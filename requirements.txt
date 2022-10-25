@@ -34,8 +34,6 @@ opencv-python-headless==4.6.0.66
 openpyxl==3.0.10
 packaging==21.3
 pandas==1.5.1
-Pillow<7
-protobuf==4.21.8
 pydantic==1.10.2
 PyMatting==1.1.8
 pyparsing==3.0.9
@@ -62,3 +60,6 @@ watchdog==2.1.9
 xlrd==2.0.1
 yarl==1.8.1
 zipp==3.9.0
+protobuf<3.20
+Pillow<7
+gdown
